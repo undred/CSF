@@ -1,4 +1,4 @@
-package audiosteganography;
+
 
 import java.io.*;
 import javax.sound.sampled.*;
@@ -12,7 +12,7 @@ import audiosteganography.fourier.FFTDataAnalyzer;
 import audiosteganography.binary.BinaryTool;
 import jm.util.*;
 
-public class Encoder {
+public class Encoder2 {
 	File audioFile;
 
 	public Encoder(File audioFile) {
