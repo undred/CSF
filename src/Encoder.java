@@ -27,7 +27,6 @@ public class Encoder{
 	
 	//ainda em duvida em relação ao AudioInputStream
 	public boolean encode(String msg, byte[] key,String path,String fileName) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
-		long teste= 1;
 		//cifrar os dados utilizando o AES
 		
 		/*Cipher c = Cipher.getInstance("AES");
@@ -43,10 +42,10 @@ public class Encoder{
 		InputStream input = add_text(audio_orig,msg);
 		
 		//transformar InputStream para AudioInputStream
-		AudioInputStream result = new AudioInputStream(input,"wav",teste);
+		AudioInputStream result = new AudioInputStream(input,audio_orig.getFormat(),audio_orig.getFrameLength());
 		
 		
-		return(setAudio(input,new File(audio_path(path,"steg","wav"))));
+		return(setAudio(result,new File(audio_path(path,"steg","wav"))));
 		
 
 		//fazer primeiro BlindHide , se conseguir fazer battleSteg
