@@ -9,11 +9,6 @@ public class GeneratingKeyException extends ExceptionTemplate
     
     public GeneratingKeyException(Exception exc)
     {
-       super(exc);
-    }
-    
-    public void printMessage()
-    {
-        super.printMessage(message);
+       super(exc, message);
     }
 }

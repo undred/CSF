@@ -6,13 +6,15 @@ package exceptions;
 public abstract class ExceptionTemplate extends Exception 
 {
     private Exception exc;
+    private String message;
     
-    protected ExceptionTemplate(Exception exc)
+    public ExceptionTemplate(Exception exc, String message)
     {
         this.exc = exc;
+        this.message = message;
     }
     
-    protected void printMessage(String message)
+    public void printMessage()
     {
          System.err.println(message);
          System.err.println("This was the cause " + exc.toString());

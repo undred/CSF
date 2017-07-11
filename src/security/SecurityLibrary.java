@@ -1,7 +1,9 @@
 package security;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import exceptions.DecriptingMessageExcepetion;
 import exceptions.EncriptingMessageExcepetion;
+import exceptions.ExceptionTemplate;
 import exceptions.GeneratingKeyException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -27,8 +29,8 @@ public class SecurityLibrary
 {
     
     private static final int NUMBER_OF_ITERATIONS = 65536;
-    private static final int KEY_SIZE = 256;
-    private static final int NUMBER_OF_BYTES = 8;
+    private static final int KEY_SIZE = 128;
+    private static final int NUMBER_OF_BYTES = 16;
     private byte[] salt;
     
     public SecurityLibrary()
@@ -42,6 +44,11 @@ public class SecurityLibrary
         this.salt = salt;
     }
     
+    public byte[] getSalt()
+    {
+        return salt;
+    }
+            
     public SecretKey generateKey(String password) throws GeneratingKeyException
     {
         SecretKey secret = null;
@@ -89,5 +96,27 @@ public class SecurityLibrary
             throw new DecriptingMessageExcepetion(exc);
         }
         return plainText;
+    }
+    
+    public static void main(String args[])
+    {
+        SecurityLibrary sec = new SecurityLibrary();
+        try
+        {
+            SecretKey key = sec.generateKey("12345");
+          
+            byte[] salt = sec.getSalt();
+            System.out.println("This is the Salt: " + new String(Base64.encode(salt)));
+            
+            byte[] cipherText = sec.encriptMessage("ola", key);
+            System.out.println("This is the CipherText: " + new String(Base64.encode(cipherText)));
+            
+            String plainText = sec.decriptMessage(cipherText, key, salt);
+            System.out.println("This is the PlainText: " + plainText);
+        }
+        catch(ExceptionTemplate exc)
+        {
+            exc.printMessage();
+        }
     }
 }

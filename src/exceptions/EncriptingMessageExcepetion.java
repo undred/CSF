@@ -1,7 +1,7 @@
 package exceptions;
 
 /**
- * @author Paulo Martins
+ * @author André Ribeiro
  */
 public class EncriptingMessageExcepetion extends ExceptionTemplate
 {
@@ -9,11 +9,7 @@ public class EncriptingMessageExcepetion extends ExceptionTemplate
     
     public EncriptingMessageExcepetion(Exception exc)
     {
-       super(exc);
+       super(exc, message);
     }
     
-    public void printMessage()
-    {
-        super.printMessage(message);
-    }
 }

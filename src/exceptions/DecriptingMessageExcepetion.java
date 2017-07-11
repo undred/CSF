@@ -9,11 +9,6 @@ public class DecriptingMessageExcepetion extends ExceptionTemplate
     
     public DecriptingMessageExcepetion(Exception exc)
     {
-       super(exc);
-    }
-    
-    public void printMessage()
-    {
-        super.printMessage(message);
+       super(exc, message);
     }
 }
