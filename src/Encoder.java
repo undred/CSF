@@ -18,15 +18,14 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 
-
-import sun.misc.IOUtils;
+import org.apache.commons.io.IOUtils;
 
 /**falta imports o eclipse trata disso**/
 
 public class Encoder{
 	
 	//ainda em duvida em relaÃ§Ã£o ao AudioInputStream
-	public boolean encode(String msg, byte[] key,String path,String fileName) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
+	public boolean encode(String msg, byte[] key,String path,String fileName) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException{
 		//cifrar os dados utilizando o AES
 		
 		/*Cipher c = Cipher.getInstance("AES");
@@ -35,7 +34,7 @@ public class Encoder{
 		
 		byte[] encryptedData = c.doFinal(msg); //alterar audio para Byte[]
 		*/
-		//apagar o audio utilizado ,verificar se é seguro
+		//apagar o audio utilizado ,verificar se ï¿½ seguro
 		
 		String			file_name 	= audio_path(path,fileName,"wav");
 		AudioInputStream 	audio_orig	= getAudio(file_name);
@@ -87,10 +86,14 @@ public class Encoder{
 		return null;
 	}
 
-	private InputStream add_text(InputStream aud, String text)
+	private InputStream add_text(InputStream aud, String text) throws IOException
 	{
 		//convert all items to byte arrays: image, message, message length
-		byte audio[] = IOUtils.toByteArray(aud); //n percebo o porquê do erro , o import devia ser este import apache.commons.io;
+                
+                //n percebo o porquï¿½ do erro , o import devia ser este import apache.commons.io?;
+                
+		byte audio[] = IOUtils.toByteArray(aud);
+                
 	
 		byte msg[] = text.getBytes();
 		byte len[] = bit_conversion(msg.length);
