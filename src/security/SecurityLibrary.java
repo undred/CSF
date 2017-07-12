@@ -48,7 +48,8 @@ public class SecurityLibrary
     {
         return salt;
     }
-            
+    
+    //gerador de chaves
     public SecretKey generateKey(String password) throws GeneratingKeyException
     {
         SecretKey secret = null;
@@ -66,6 +67,7 @@ public class SecurityLibrary
         return secret;
     }
     
+    //metodo de cifrar
     public byte[] encriptMessage(String plainText, SecretKey key) throws EncriptingMessageExcepetion
     {
         byte[] cipherText = null;
@@ -82,6 +84,7 @@ public class SecurityLibrary
         return cipherText;
     }
     
+    //metode de decifrar
     public String decriptMessage(byte[] cipherText, SecretKey key, byte[] IV) throws DecriptingMessageExcepetion
     {
         String plainText = null;
@@ -98,6 +101,7 @@ public class SecurityLibrary
         return plainText;
     }
     
+    //teste
     public static void main(String args[])
     {
         SecurityLibrary sec = new SecurityLibrary();

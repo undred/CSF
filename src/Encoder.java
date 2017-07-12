@@ -20,6 +20,8 @@ import javax.swing.JOptionPane;
 
 import org.apache.commons.io.IOUtils;
 
+
+
 /**falta imports o eclipse trata disso**/
 
 public class Encoder{
@@ -49,7 +51,28 @@ public class Encoder{
 
 		//fazer primeiro BlindHide , se conseguir fazer battleSteg
 	}
+	//metodo de decifrar
+	public String decode(String path, String name)
+	{
+		byte[] decode;
+		byte[] aud;
+		try
+		{
+			//user space is necessary for decrypting
+			AudioInputStream audio  = getAudio(audio_path(path,name,"wav"));
+			decode = decode_text(IOUtils.toByteArray(audio));
+			return(new String(decode));
+		}
+        catch(Exception e)
+        {
+			JOptionPane.showMessageDialog(null, 
+				"There is no hidden message in this image!","Error",
+				JOptionPane.ERROR_MESSAGE);
+			return "";
+        }
+    }
 	
+	//metodo para concatenar o caminho para o ficheiro
 	private String audio_path(String path, String name, String ext)
 	{
 		return path + "/" + name + "." + ext;
@@ -86,6 +109,7 @@ public class Encoder{
 		return null;
 	}
 
+	
 	private InputStream add_text(InputStream aud, String text) throws IOException
 	{
 		//convert all items to byte arrays: image, message, message length
@@ -109,6 +133,27 @@ public class Encoder{
 		return aud;
 	}
 	
+	private byte[] decode_text(byte[] audio)
+	{
+		int length = 0;
+		int offset  = 32;
+		for(int i=0; i<32; ++i) 
+		{
+			length = (length << 1) | (audio[i] & 1);
+		}
+		
+		byte[] result = new byte[length];
+		
+		for(int b=0; b<result.length; ++b )
+		{
+			for(int i=0; i<8; ++i, ++offset)
+			{
+				result[b] = (byte)((result[b] << 1) | (audio[offset] & 1));
+			}
+		}
+		return result;
+	}
+	
 	private byte[] bit_conversion(int i)
 	{
 		byte byte3 = (byte)((i & 0xFF000000) >>> 24);
@@ -117,7 +162,8 @@ public class Encoder{
 		byte byte0 = (byte)((i & 0x000000FF)       );
 		return(new byte[]{byte3,byte2,byte1,byte0});
 	}
-
+	
+	//metodo de cifrar
 	private byte[] encode_text(byte[] audio, byte[] addition, int offset)
 	{
 		//verificar se os dados + offset cabem no ficheiro
