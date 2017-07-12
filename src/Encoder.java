@@ -10,6 +10,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFileFormat;
@@ -19,6 +20,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.IOUtils;
+
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
+import exceptions.ExceptionTemplate;
+import security.SecurityLibrary;
 
 
 
@@ -183,4 +189,10 @@ public class Encoder{
 		}
 		return audio;
 	}
+
+	 //teste
+    public static void main(String args[])
+    {
+    
+    }
 }
