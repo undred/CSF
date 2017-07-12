@@ -33,7 +33,7 @@ import security.SecurityLibrary;
 public class Encoder{
 	
 	//ainda em duvida em relação ao AudioInputStream
-	public boolean encode(String msg, byte[] key,String path,String fileName) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException{
+	public static boolean encode(String msg,String path,String fileName) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException{
 		//cifrar os dados utilizando o AES
 		
 		/*Cipher c = Cipher.getInstance("AES");
@@ -79,18 +79,18 @@ public class Encoder{
     }
 	
 	//metodo para concatenar o caminho para o ficheiro
-	private String audio_path(String path, String name, String ext)
+	private static String audio_path(String path, String name, String ext)
 	{
 		return path + "/" + name + "." + ext;
 	}
 	
 	//metodo para gravar uma musica
-	private boolean setAudio(AudioInputStream aud, File file)
+	private static boolean setAudio(AudioInputStream aud, File file)
 	{
 		try
 		{
 			file.delete(); //delete resources used by the File
-			AudioSystem.write(aud,AudioFileFormat.Type.WAVE,new File("D:\\wavAppended.wav"));
+			AudioSystem.write(aud,AudioFileFormat.Type.WAVE,file);
 			return true;
 		}
 		catch(Exception e)
@@ -102,7 +102,7 @@ public class Encoder{
 	}
 
 	//metodo para ir buscar musica
-	private AudioInputStream getAudio(String f)
+	private static AudioInputStream getAudio(String f)
 	{
 		File file=new File(f);
 		try {
@@ -116,7 +116,7 @@ public class Encoder{
 	}
 
 	
-	private InputStream add_text(InputStream aud, String text) throws IOException
+	private static InputStream add_text(InputStream aud, String text) throws IOException
 	{
 		//convert all items to byte arrays: image, message, message length
                 
@@ -160,7 +160,7 @@ public class Encoder{
 		return result;
 	}
 	
-	private byte[] bit_conversion(int i)
+	private static byte[] bit_conversion(int i)
 	{
 		byte byte3 = (byte)((i & 0xFF000000) >>> 24);
 		byte byte2 = (byte)((i & 0x00FF0000) >>> 16); 
@@ -170,7 +170,7 @@ public class Encoder{
 	}
 	
 	//metodo de cifrar
-	private byte[] encode_text(byte[] audio, byte[] addition, int offset)
+	private static byte[] encode_text(byte[] audio, byte[] addition, int offset)
 	{
 		//verificar se os dados + offset cabem no ficheiro
 		if(addition.length + offset > audio.length)
@@ -193,6 +193,30 @@ public class Encoder{
 	 //teste
     public static void main(String args[])
     {
-    
+    	String path="D:\\";
+    	try {
+			if(encode("ola",path,"wav1"))
+				System.out.println("This was a sucess");
+			else
+				System.out.println("This was not a sucess");
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
