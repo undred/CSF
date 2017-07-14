@@ -1,6 +1,6 @@
 package security;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import java.util.Base64;
 import exceptions.DecriptingMessageExcepetion;
 import exceptions.EncriptingMessageExcepetion;
 import exceptions.ExceptionTemplate;
@@ -110,10 +110,10 @@ public class SecurityLibrary
             SecretKey key = sec.generateKey("12345");
           
             byte[] salt = sec.getSalt();
-            System.out.println("This is the Salt: " + new String(Base64.encode(salt)));
+            System.out.println("This is the Salt: " + new String(Base64.getEncoder().encode(salt)));
             
             byte[] cipherText = sec.encriptMessage("ola", key);
-            System.out.println("This is the CipherText: " + new String(Base64.encode(cipherText)));
+            System.out.println("This is the CipherText: " + new String(Base64.getEncoder().encode(cipherText)));
             
             String plainText = sec.decriptMessage(cipherText, key, salt);
             System.out.println("This is the PlainText: " + plainText);

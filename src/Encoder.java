@@ -1,5 +1,3 @@
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,12 +5,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -20,15 +14,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.IOUtils;
-
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
-import exceptions.ExceptionTemplate;
-import security.SecurityLibrary;
-
-
-
-/**falta imports o eclipse trata disso**/
 
 public class Encoder{
 	
@@ -49,7 +34,7 @@ public class Encoder{
 		InputStream input = add_text(audio_orig,msg);
 		
 		//transformar InputStream para AudioInputStream
-		AudioInputStream result = new AudioInputStream(input,audio_orig.getFormat(),audio_orig.getFrameLength());
+		AudioInputStream result = new AudioInputStream(input ,audio_orig.getFormat(),audio_orig.getFrameLength());
 		
 		
 		return(setAudio(result,new File(audio_path(path,"steg","wav"))));
@@ -74,6 +59,7 @@ public class Encoder{
 			JOptionPane.showMessageDialog(null, 
 				"There is no hidden message in this image!","Error",
 				JOptionPane.ERROR_MESSAGE);
+                        
 			return "";
         }
     }
@@ -81,7 +67,7 @@ public class Encoder{
 	//metodo para concatenar o caminho para o ficheiro
 	private  String audio_path(String path, String name, String ext)
 	{
-		return path + "/" + name + "." + ext;
+		return path + "\\" + name + "." + ext;
 	}
 	
 	//metodo para gravar uma musica
@@ -91,7 +77,7 @@ public class Encoder{
 		{
 			 //delete resources used by the File
 			AudioSystem.write(aud,AudioFileFormat.Type.WAVE,file);
-			file.delete();
+			//file.delete();
 			return true;
 		}
 		catch(Exception e)
@@ -123,12 +109,12 @@ public class Encoder{
                 
 		byte audio[] = IOUtils.toByteArray(aud);
                 
-	
+                
 		byte msg[] = text.getBytes();
-		byte len[] = bit_conversion(msg.length);
+		//byte len[] = bit_conversion(msg.length);
 		try
 		{
-			encode_text(audio, len,  0); //0 first positiong
+		//	encode_text(audio, len,  0); //0 first positiong
 			encode_text(audio, msg, 32); //4 bytes of space for length: 4bytes*8bit = 32 bits
 		}
 		catch(Exception e)
@@ -192,10 +178,10 @@ public class Encoder{
 	 //teste
     public static void main(String args[])
     {
-    	String path="D:\\";
+    	String path="C:\\Users\\Paulo Martins\\Desktop\\Faculdade\\CSF - Ribeiro\\CSF";
     	Encoder E = new Encoder();
     	try {
-			if(E.encode("ola",path,"wav1"))
+			if(E.encode("ola",path,"cartoon001"))
 				System.out.println("This was a sucess");
 			else
 				System.out.println("This was not a sucess");
