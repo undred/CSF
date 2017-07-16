@@ -22,16 +22,16 @@ public class Application
     */
     public static void main(String[] args) throws EncodingMessageException, DecodingMessageException 
     {
-        String path = "C:\\Users\\Paulo Martins\\Desktop\\Faculdade\\CSF - Ribeiro\\CSF\\";
+        String path = "C:\\Users\\Undred\\Documents\\GitHub\\CSF\\";
         String originalName = "cartoon001";
-        
         String steggedName = "cartoon001Stegged";
-                
+         
         File file = getFile(buildPath(path, originalName));
         
         Encoder encoder = new Encoder();
         
         AudioInputStream originalStream = getAudio(file);
+       
         InputStream stteggedInput = encoder.encode(originalStream, "ola");
         setAudio(inputStreamToAudioStream(stteggedInput, originalStream), getFile(buildPath(path, steggedName)));
         
@@ -41,6 +41,7 @@ public class Application
         AudioInputStream stteggedStream = getAudio(file);
         String hiddedMessage = decoder.decode(stteggedStream);
         System.out.println(hiddedMessage);
+       
     }
     
     private static AudioInputStream inputStreamToAudioStream(InputStream steggedInput, AudioInputStream originalStream)
@@ -52,6 +53,7 @@ public class Application
     {
         return path + fileName + WAV_EXTENSION;
     }
+    
     private static File getFile(String path)
     {
         return new File(path);
