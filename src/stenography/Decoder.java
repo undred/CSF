@@ -13,7 +13,7 @@ public class Decoder
     private static int MESSAGE_OFFSET = 32;
     private static int BITS_IN_A_BYTE = 8;
     
-    public String decode(InputStream input) throws DecodingMessageException
+    public byte[] decode(InputStream input) throws DecodingMessageException
     {
         byte[] inputBytes = null;
         byte[] messageBytes = null;
@@ -30,7 +30,7 @@ public class Decoder
             throw new DecodingMessageException(exc);
         }
         
-        return message;
+        return messageBytes;
     }
     
     private int getMessageLength(byte[] inputBytes)

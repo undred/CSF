@@ -1,9 +1,17 @@
 
 import exceptions.DecodingMessageException;
+import exceptions.DecriptingMessageExcepetion;
 import exceptions.EncodingMessageException;
+import exceptions.EncriptingMessageExcepetion;
+import exceptions.GeneratingKeyException;
+import security.SecurityLibrary;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
+
+import javax.crypto.SecretKey;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -20,7 +28,7 @@ public class Application
     /*
     Podes se quiser meter isto pela a consola com um scanner e assim não tens hardcoded
     */
-    public static void main(String[] args) throws EncodingMessageException, DecodingMessageException 
+    public static void main(String[] args) throws EncodingMessageException, DecodingMessageException, GeneratingKeyException, EncriptingMessageExcepetion, DecriptingMessageExcepetion 
     {
         String path = "C:\\Users\\Undred\\Documents\\GitHub\\CSF\\";
         String originalName = "cartoon001";
@@ -28,19 +36,34 @@ public class Application
          
         File file = getFile(buildPath(path, originalName));
         
+        //inicializar cifra
+        SecurityLibrary sec = new SecurityLibrary();
+        SecretKey key = sec.generateKey("12345");//valor aleatorio
+        byte[] salt = sec.getSalt();
+        System.out.println("This is the Salt: " + new String(Base64.getEncoder().encode(salt)));
+        
+        //cifrar mensagem
+        byte[] cipherText = sec.encriptMessage("ola", key);
+        System.out.println("This is the CipherText: " + new String(Base64.getEncoder().encode(cipherText)));
+        
+        //esconder mensagem
         Encoder encoder = new Encoder();
         
         AudioInputStream originalStream = getAudio(file);
        
-        InputStream stteggedInput = encoder.encode(originalStream, "ola");
+        InputStream stteggedInput = encoder.encode(originalStream, new String(Base64.getEncoder().encode(cipherText)));
         setAudio(inputStreamToAudioStream(stteggedInput, originalStream), getFile(buildPath(path, steggedName)));
         
+        //descobrir a mensagem
         Decoder decoder = new Decoder();
         
         file = getFile(buildPath(path, steggedName));
         AudioInputStream stteggedStream = getAudio(file);
-        String hiddedMessage = decoder.decode(stteggedStream);
-        System.out.println(hiddedMessage);
+        byte[] hiddenMessage = decoder.decode(stteggedStream);
+        
+        String plainText = sec.decriptMessage(hiddenMessage, key, salt);
+        
+        System.out.println(plainText);
        
     }
     
