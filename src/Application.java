@@ -30,7 +30,7 @@ public class Application
     */
     public static void main(String[] args) throws EncodingMessageException, DecodingMessageException, GeneratingKeyException, EncriptingMessageExcepetion, DecriptingMessageExcepetion 
     {
-        String path = "C:\\Users\\Undred\\Documents\\GitHub\\CSF\\";
+        String path = "C:\\Users\\ribeiroad\\Documents\\GitHub\\CSF\\";
         String originalName = "cartoon001";
         String steggedName = "cartoon001Stegged";
          
@@ -61,6 +61,7 @@ public class Application
         AudioInputStream stteggedStream = getAudio(file);
         byte[] hiddenMessage = decoder.decode(stteggedStream);
         
+        System.out.println("This is the CipherText: " + new String(Base64.getEncoder().encode(hiddenMessage)));
         String plainText = sec.decriptMessage(hiddenMessage, key, salt);
         
         System.out.println(plainText);
